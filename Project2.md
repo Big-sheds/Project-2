@@ -116,7 +116,7 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
 
  **We paste the command in the blank file**
 
- #/etc/nginx/sites-available/projectLEMP
+ #### /etc/nginx/sites-available/projectLEMP
 
 server {
     listen 80;
@@ -161,3 +161,36 @@ server {
 **Reload Nginx to apply changes**
 
 `sudo sysytemcl reload nginx`
+
+**The website is active now, but the web root `/var/www/projectLEMP` is still empty. We create an index.html file in that location so we test that the new server block works as expected:**
+
+`sudo echo 'Hello LEMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html`
+
+
+**Open the website URL using IP address, and we should see the text from `echo`**
+
+  ![NGINX Status](./Images-2/image-2.9.jpg)
+
+  **LEMP stack is fully configured. next step is to create a PHP script to test that Nginx is able to handle `.php` files within the newly configured website.**
+
+
+## STEP 5 – TESTING PHP WITH NGINX
+
+**Create a test PHP file in our document root. We open a new file called `info.php` RUN;**
+
+`sudo nano /var/www/projectLEMP/info.php`
+**Then paste in**
+
+`<?php
+phpinfo();`
+
+**Access the page on web browser using the domain name or IP we set uo in Nginx configuration followed by `/info.php`**
+
+  ![NGINX Status](./Images-2/image-2.10.jpg)
+
+  **It’s best to remove the file you created as it contains sensitive information about your PHP environment and Ubuntu server. we use `rm` to remove files. RUN;**
+
+ `sudo rm /var/www/your_domain/info.php`
+
+
+
