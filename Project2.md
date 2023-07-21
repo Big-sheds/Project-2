@@ -118,15 +118,16 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
 
  #### /etc/nginx/sites-available/projectLEMP
 
-server {
-    listen 80;
-    server_name projectLEMP www.projectLEMP;
-    root /var/www/projectLEMP;
+`server {`
+    `listen 80;`
+    `server_name projectLEMP www.projectLEMP;`
+    `root /var/www/projectLEMP;`
 
-    index index.html index.htm index.php;
+   `index index.html index.htm index.php;` 
 
-    location / {
-        try_files $uri $uri/ =404;
+     location / {
+      
+              try_files $uri $uri/ =404;
     }
 
     location ~ \.php$ {
@@ -191,6 +192,7 @@ phpinfo();`
   **It’s best to remove the file you created as it contains sensitive information about your PHP environment and Ubuntu server. we use `rm` to remove files. RUN;**
 
  `sudo rm /var/www/your_domain/info.php`
+
 
 
 
