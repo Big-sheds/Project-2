@@ -118,14 +118,14 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
 
  #### /etc/nginx/sites-available/projectLEMP
 
-`server {`
-    `listen 80;`
-    `server_name projectLEMP www.projectLEMP;`
-    `root /var/www/projectLEMP;`
+`server {
+    listen 80;
+    server_name projectLEMP www.projectLEMP;
+    root /var/www/projectLEMP;
 
-   `index index.html index.htm index.php;` 
+   index index.html index.htm index.php;
 
-     location / {
+    location / {
       
               try_files $uri $uri/ =404;
     }
@@ -139,7 +139,7 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
         deny all;
     }
 
-}
+}`
 
 
 **We activate our configuration by linking the config. file fron Nginx sites-enabled directory**
@@ -194,5 +194,81 @@ phpinfo();`
  `sudo rm /var/www/your_domain/info.php`
 
 
+## STEP 6 – RETRIEVING DATA FROM MYSQL DATABASE WITH PHP 
+
+**We will create a test database(DB) with sample "To do list" and configure access to it**
+
+**First, connect to the MySQL console using the root account:**
+ 
+ `sudo mysql`
+
+**To create a new database, run the following command from your MySQL console:**
+
+`mysql> CREATE DATABASE `example_database`;`
+
+
+  **This command will create a new user named example_user using mysql_native_password as default authentication method. We should define this user's password as "Password"   Run :**
+
+`mysql>  CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';`
+
+**Next, will need to give this user permission over the example_database database:**
+
+`mysql> GRANT ALL ON  example_database.* TO 'example_user'@'%';`
+
+**It will give example_user full privileges over the example_database database, while preventing this user from creating or modifying other databases on our server.**
+
+`mysql> exit`
+
+**You can test if the new user has the proper permissions by logging in to the MySQL console again, this time using the custom user credentials:**
+
+`mysql -u example_user -p`
+
+**the `-p` flag will prompt for the password used when creating the `example_user` user. After logging in to the MySQL console, confirm that you have access to the example_database database:**
+
+`mysql> SHOW DATABASES;`
+
+  ![NGINX Status](./Images-2/image-2.11.jpg)
+
+  Create a test table named **todo_list** from MySQL console.
+
+  `CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT,content VARCHAR(255),PRIMARY KEY(item_id));`
+
+  **To insert a few rows of content in the test table You might want to repeat the next command a few times, using different VALUES:**
+
+`mysql> INSERT INTO example_database.todo_list (content) VALUES ("My first important item");`
+
+**To confirm the data was successfully saved run:**
+
+`mysql> SELECT * FROM example_database.todo_list;`
+
+  ![NGINX Status](./Images-2/image-2.12.jpg)
+
+  `mysql> exit`
+
+  **Now you can create a PHP script that will connect to MySQL and query for your content. Create a new PHP file in your custom web root directory using your preferred editor. We’ll use vi for that:**
+
+  `nano /var/www/projectLEMP/todo_list.php`
+
+**The following PHP script connects to the MySQL database and queries for the content of the todo_list table, displays the results in a list. If there is a problem with the database connection, it will throw an exception.**
+
+Then copy this content into your `todo_list.php` script
+
+<?php
+$user = "example_user";
+$password = "password";
+$database = "example_database";
+$table = "todo_list";
+
+try {
+  $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+  echo "<h2>TODO</h2><ol>";
+  foreach($db->query("SELECT content FROM $table") as $row) {
+    echo "<li>" . $row['content'] . "</li>";
+  }
+  echo "</ol>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
 
 
