@@ -253,6 +253,7 @@ phpinfo();`
 
 Then copy this content into your `todo_list.php` script
 
+
 <?php
 $user = "example_user";
 $password = "password";
@@ -272,3 +273,7 @@ try {
 }
 
 
+
+**We can access  this page in your web browser by visiting the domain name or public IP address configured for your website, followed by /todo_list.php :**
+
+`http://<Public_domain_or_IP>/todo_list.php`
