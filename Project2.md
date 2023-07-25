@@ -254,7 +254,7 @@ phpinfo();`
 Then copy this content into your `todo_list.php` script
 
 
-<?php
+`<?php
 $user = "example_user";
 $password = "password";
 $database = "example_database";
@@ -270,7 +270,7 @@ try {
 } catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
-}
+}`
 
 
 
