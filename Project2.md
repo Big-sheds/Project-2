@@ -118,7 +118,7 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
 
  #### /etc/nginx/sites-available/projectLEMP
 
-`server {
+server {
     listen 80;
     server_name projectLEMP www.projectLEMP;
     root /var/www/projectLEMP;
@@ -139,7 +139,7 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
         deny all;
     }
 
-}`
+}
 
 
 **We activate our configuration by linking the config. file fron Nginx sites-enabled directory**
@@ -147,7 +147,7 @@ While Apache embeds the PHP interpreter in each request, Nginx requires an exter
 `sudo ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/`
 
 
-*Test for syntax errors by typing*
+**Test for syntax errors by typing**
 
 `sudo nginx-t`
 
@@ -254,23 +254,21 @@ phpinfo();`
 Then copy this content into your `todo_list.php` script
 
 
-`<?php
-$user = "example_user";
-$password = "password";
-$database = "example_database";
-$table = "todo_list";
-
-try {
-  $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
-  echo "<h2>TODO</h2><ol>";
-  foreach($db->query("SELECT content FROM $table") as $row) {
-    echo "<li>" . $row['content'] . "</li>";
-  }
-  echo "</ol>";
-} catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
-    die();
-}`
+`<?php`
+`$password = "password";`
+`$database = "example_database";`
+`$table = "todo_list";`
+`try {`
+  `$db = new PDO("mysql:host=localhost;dbname=$database",` `$user, $password);`
+  `echo "<h2>TODO</h2><ol>";`
+  `foreach($db->query("SELECT content FROM $table") as $row) {`
+    `echo "<li>" . $row['content'] . "</li>";`
+  ``}``
+  `echo "</ol>";`
+`} catch (PDOException $e) {`
+    `print "Error!: " . $e->getMessage() . "<br/>";`
+    `die();`
+``}`
 
 
 
